@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# TranslocationAnslysis
+
+# cancer type [SARC BRCA GBM OV LUSC STAD UCEC HNSC LIHC SKCM]
+
+source Functions.sh
+
+declare -a arr=("SARC" "BRCA" "GBM" "OV" "LUSC" "STAD" "UCEC" "HNSC" "LIHC" "SKCM")
+
+
+for cancer in "${arr[@]}"
+do 
+	count "$cancer" TRA						# geneRegion ~ mutation number
+		
+	CountFPKM "$cancer" TRA					# geneRegion ~ fpkm
+	 
+	AnnotateSVFPKM "$cancer" TRA			# geneRegion ~ mutation number + fpkm + replicationtiming
+	
+	ComputeDistribution "$cancer" TRA		# translocation/sample/Mb in nonsilent/silent/intergenic regions
+
+	Compute5fpkmbs "$cancer" TRA			# translocation number in 5 gene expression bins
+	
+	Compute5repTimebs "$cancer" TRA			# translocation number in 5 replication timing bins
+	
+	ComputeProfile "$cancer" TRA			# coverage profile
+	
+	TranslocationHR "$cancer" TRA			# geneRegion ~ mutation number for HR+/HR- subgroups
+	
+	ComputeRegression "$cancer" TRA			
+	
+	IntergenicRegression "$cancer" TRA	
+	
+	HRregression "$cancer" TRA	
+	
+	oneMbRepTimeregression "$cancer" TRA	# linear regression imported in R
+	
+done
