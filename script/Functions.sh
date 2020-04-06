@@ -11,7 +11,7 @@ count()
 
 CountFPKM()
 {
-	awk -F '\t' 'NR !=1 {print (NF-1)*0.8}' ../src/TCGA-$1.htseq_fpkm-uq.tsv > $1.countCutoff
+	awk -F '\t' 'NR !=1 {print (NF-1)*0.5}' ../src/TCGA-$1.htseq_fpkm-uq.tsv > $1.countCutoff
 
 	awk -F '\t' 'NR !=1 {count=0; for(N=2; N<=NF; N++) {if($N==0) count++}; print count}' ../src/TCGA-$1.htseq_fpkm-uq.tsv > $1.countZero
 
